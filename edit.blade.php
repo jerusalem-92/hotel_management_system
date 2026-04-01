@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Room {{ $room->room_number }}</title>
+    <title>Edit Customer</title>
     <style>
         body {
             font-family: sans-serif;
@@ -35,7 +35,7 @@
         }
 
         input,
-        select {
+        textarea {
             width: 100%;
             padding: 0.5rem;
             border: 1px solid #ccc;
@@ -52,7 +52,6 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 1rem;
             margin-top: 1rem;
         }
 
@@ -60,10 +59,6 @@
             background-color: #6b7280;
             text-align: center;
             text-decoration: none;
-        }
-
-        .btn:hover {
-            opacity: 0.9;
         }
 
         .error {
@@ -75,7 +70,7 @@
 
 <body>
     <div class="card">
-        <h2>Edit Room: {{ $room->room_number }}</h2>
+        <h2>Edit Customer: {{ $customer->name }}</h2>
 
         @if($errors->any())
             <div class="error">
@@ -87,45 +82,29 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.rooms.update', $room) }}" method="POST">
+        <form action="{{ route('admin.customers.update', $customer) }}" method="POST">
             @csrf
             @method('PUT')
 
             <div class="form-group">
-                <label for="room_number">Room Number</label>
-                <input type="text" name="room_number" id="room_number" required
-                    value="{{ old('room_number', $room->room_number) }}">
+                <label for="name">Full Name</label>
+                <input type="text" name="name" id="name" required value="{{ old('name', $customer->name) }}">
             </div>
-
             <div class="form-group">
-                <label for="type">Room Type</label>
-                <select name="type" id="type" required>
-                    <option value="Single" {{ old('type', $room->type) == 'Single' ? 'selected' : '' }}>Single</option>
-                    <option value="Double" {{ old('type', $room->type) == 'Double' ? 'selected' : '' }}>Double</option>
-                    <option value="Suite" {{ old('type', $room->type) == 'Suite' ? 'selected' : '' }}>Suite</option>
-                </select>
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" required value="{{ old('email', $customer->email) }}">
             </div>
-
             <div class="form-group">
-                <label for="price_per_night">Price Per Night</label>
-                <input type="number" step="0.01" name="price_per_night" id="price_per_night" required
-                    value="{{ old('price_per_night', $room->price_per_night) }}">
+                <label for="phone">Phone Number (Optional)</label>
+                <input type="text" name="phone" id="phone" value="{{ old('phone', $customer->phone) }}">
             </div>
-
             <div class="form-group">
-                <label for="status">Room Status</label>
-                <select name="status" id="status" required>
-                    <option value="available" {{ old('status', $room->status) == 'available' ? 'selected' : '' }}>
-                        Available</option>
-                    <option value="booked" {{ old('status', $room->status) == 'booked' ? 'selected' : '' }}>Booked
-                    </option>
-                    <option value="maintenance" {{ old('status', $room->status) == 'maintenance' ? 'selected' : '' }}>
-                        Maintenance</option>
-                </select>
+                <label for="address">Address (Optional)</label>
+                <textarea name="address" id="address" rows="3">{{ old('address', $customer->address) }}</textarea>
             </div>
 
-            <button type="submit" class="btn">Update Room</button>
-            <a href="{{ route('admin.rooms.index') }}" class="btn btn-cancel">Cancel</a>
+            <button type="submit" class="btn">Update Information</button>
+            <a href="{{ route('admin.customers.index') }}" class="btn btn-cancel">Cancel</a>
         </form>
     </div>
 </body>

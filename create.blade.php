@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Room {{ $room->room_number }}</title>
+    <title>Register Customer</title>
     <style>
         body {
             font-family: sans-serif;
@@ -34,7 +34,8 @@
             margin-bottom: 0.5rem;
         }
 
-        input {
+        input,
+        textarea {
             width: 100%;
             padding: 0.5rem;
             border: 1px solid #ccc;
@@ -51,15 +52,17 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 1rem;
+            margin-top: 1rem;
         }
 
-        .btn:hover {
-            background-color: #2563eb;
+        .btn-cancel {
+            background-color: #6b7280;
+            text-align: center;
+            text-decoration: none;
         }
 
         .error {
-            color: red;
+            color: #ef4444;
             margin-bottom: 1rem;
         }
     </style>
@@ -67,8 +70,7 @@
 
 <body>
     <div class="card">
-        <h2>Book Room {{ $room->room_number }} ({{ $room->type }})</h2>
-        <p>Price: ${{ number_format($room->price_per_night, 2) }} / night</p>
+        <h2>Register New Customer</h2>
 
         @if($errors->any())
             <div class="error">
@@ -80,26 +82,27 @@
             </div>
         @endif
 
-        <form action="{{ route('bookings.store', $room) }}" method="POST">
+        <form action="{{ route('admin.customers.store') }}" method="POST">
             @csrf
             <div class="form-group">
-                <label for="guest_name">Full Name</label>
-                <input type="text" name="guest_name" id="guest_name" required value="{{ old('guest_name') }}">
+                <label for="name">Full Name</label>
+                <input type="text" name="name" id="name" required value="{{ old('name') }}">
             </div>
             <div class="form-group">
-                <label for="guest_email">Email</label>
-                <input type="email" name="guest_email" id="guest_email" required value="{{ old('guest_email') }}">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" required value="{{ old('email') }}">
             </div>
             <div class="form-group">
-                <label for="check_in_date">Check-in Date</label>
-                <input type="date" name="check_in_date" id="check_in_date" required value="{{ old('check_in_date') }}">
+                <label for="phone">Phone Number (Optional)</label>
+                <input type="text" name="phone" id="phone" value="{{ old('phone') }}">
             </div>
             <div class="form-group">
-                <label for="check_out_date">Check-out Date</label>
-                <input type="date" name="check_out_date" id="check_out_date" required
-                    value="{{ old('check_out_date') }}">
+                <label for="address">Address (Optional)</label>
+                <textarea name="address" id="address" rows="3">{{ old('address') }}</textarea>
             </div>
-            <button type="submit" class="btn">Confirm Booking</button>
+
+            <button type="submit" class="btn">Register</button>
+            <a href="{{ route('admin.customers.index') }}" class="btn btn-cancel">Cancel</a>
         </form>
     </div>
 </body>

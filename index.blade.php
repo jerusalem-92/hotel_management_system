@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Room Management</title>
+    <title>Customer Management</title>
     <style>
         body {
             font-family: sans-serif;
@@ -61,6 +61,10 @@
             background-color: #10b981;
         }
 
+        .btn-view {
+            background-color: #f59e0b;
+        }
+
         .btn:hover {
             opacity: 0.9;
         }
@@ -69,32 +73,17 @@
             color: #10b981;
             margin-bottom: 1rem;
         }
-
-        .status-available {
-            color: #10b981;
-            font-weight: bold;
-        }
-
-        .status-booked {
-            color: #ef4444;
-            font-weight: bold;
-        }
-
-        .status-maintenance {
-            color: #f59e0b;
-            font-weight: bold;
-        }
     </style>
 </head>
 
 <body>
     <div class="container">
         <div class="header">
-            <h2>Room Management (Admin)</h2>
+            <h2>Customer Management (Admin)</h2>
             <div>
-                <a href="{{ route('admin.rooms.create') }}" class="btn">Add New Room</a>
-                <a href="{{ route('rooms.index') }}" class="btn" style="background-color: #6b7280;">Go to Public
-                    View</a>
+                <a href="{{ route('admin.customers.create') }}" class="btn">Register Customer</a>
+                <a href="{{ route('admin.rooms.index') }}" class="btn" style="background-color: #6b7280;">Manage
+                    Rooms</a>
             </div>
         </div>
 
@@ -106,23 +95,22 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Room Number</th>
-                    <th>Type</th>
-                    <th>Price/Night</th>
-                    <th>Status</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($rooms as $room)
+                @foreach($customers as $customer)
                     <tr>
-                        <td>{{ $room->id }}</td>
-                        <td>{{ $room->room_number }}</td>
-                        <td>{{ $room->type }}</td>
-                        <td>${{ number_format($room->price_per_night, 2) }}</td>
-                        <td class="status-{{ strtolower($room->status) }}">{{ ucfirst($room->status) }}</td>
+                        <td>{{ $customer->id }}</td>
+                        <td>{{ $customer->name }}</td>
+                        <td>{{ $customer->email }}</td>
+                        <td>{{ $customer->phone ?? 'N/A' }}</td>
                         <td>
-                            <a href="{{ route('admin.rooms.edit', $room) }}" class="btn btn-edit">Edit</a>
+                            <a href="{{ route('admin.customers.show', $customer) }}" class="btn btn-view">View</a>
+                            <a href="{{ route('admin.customers.edit', $customer) }}" class="btn btn-edit">Edit</a>
                         </td>
                     </tr>
                 @endforeach
